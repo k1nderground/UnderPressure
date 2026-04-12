@@ -7,6 +7,7 @@ public class PressureScript : MonoBehaviour
 
     [Header("Pressure")]
     [SerializeField] float drainAmount;
+    [SerializeField] float maxPressure = 10f;
 
     [Header("SpeedCurve")]
     [SerializeField] float accelerationTime;
@@ -29,6 +30,7 @@ public class PressureScript : MonoBehaviour
     {
         if (!isDraining)
         {
+            if(pressure<maxPressure){
             if(diffKey){
                 if (Input.GetKeyDown("q"))
                 {
@@ -42,6 +44,7 @@ public class PressureScript : MonoBehaviour
                     pressure += 1f;
                     diffKey = !diffKey;
                 }
+            }
             }
             if (Input.GetKeyDown("w") && pressure>0)
             {

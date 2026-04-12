@@ -14,6 +14,7 @@ public class MovementScript : MonoBehaviour
 [SerializeField] int rotationSpeed = 100;
 [SerializeField] Transform groundCheck;
 [SerializeField] float groundDistance = 0.3f;
+
 public LayerMask groundLayer;
 
 private bool isGrounded;
