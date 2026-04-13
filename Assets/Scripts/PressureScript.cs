@@ -9,6 +9,11 @@ public class PressureScript : MonoBehaviour
     [SerializeField] float drainAmount;
     [SerializeField] float maxPressure = 10f;
 
+    [Header("KeyCodes")]
+    [SerializeField] KeyCode firstKey = KeyCode.Q;
+    [SerializeField] KeyCode secondKey = KeyCode.E;
+    [SerializeField] KeyCode startKey = KeyCode.W;
+
     [Header("SpeedCurve")]
     [SerializeField] float accelerationTime;
     [SerializeField] float brakeTime;
@@ -24,6 +29,7 @@ public class PressureScript : MonoBehaviour
     {
         isDraining = false;
         pressure = 0;
+        diffKey = true;
     }
 
     void Update()
@@ -32,21 +38,21 @@ public class PressureScript : MonoBehaviour
         {
             if(pressure<maxPressure){
             if(diffKey){
-                if (Input.GetKeyDown("q"))
+                if (Input.GetKeyDown(firstKey))
                 {
-                    pressure += 1f;
+                    pressure += 0.2f;
                     diffKey = !diffKey;
                 }
             }
             if(!diffKey){
-                if (Input.GetKeyDown("e"))
+                if (Input.GetKeyDown(secondKey))
                 {
-                    pressure += 1f;
+                    pressure += 0.2f;
                     diffKey = !diffKey;
                 }
             }
             }
-            if (Input.GetKeyDown("w") && pressure>0)
+            if (Input.GetKeyDown(startKey) && pressure>0)
             {
                 StartDraining();
             }

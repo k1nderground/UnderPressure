@@ -14,6 +14,7 @@ public class MovementScript : MonoBehaviour
 [SerializeField] int rotationSpeed = 100;
 [SerializeField] Transform groundCheck;
 [SerializeField] float groundDistance = 0.3f;
+[SerializeField] float maxSpeed = 10f;
 
 public LayerMask groundLayer;
 
@@ -59,15 +60,21 @@ void Update()
 
     public void Move()
     {
-    Vector3 forward = cameraTransform.forward;
-    forward.y = 0;
-    forward.Normalize();
+        Vector3 forward = cameraTransform.forward;
+        forward.y = 0;
+        forward.Normalize();
 
-    rb.AddForce(forward * moveMultiplier, ForceMode.Acceleration);
+        Vector3 velocity = rb.linearVelocity;
+        Vector3 horizontal = new Vector3(velocity.x, 0, velocity.z);
 
-    Vector3 localVelocity = transform.InverseTransformDirection(rb.linearVelocity);
-    localVelocity.x = 0;
-    rb.linearVelocity = transform.TransformDirection(localVelocity);
+        if (horizontal.magnitude < maxSpeed)
+        {
+            rb.AddForce(forward * moveMultiplier, ForceMode.Acceleration);
+        }
+
+        Vector3 localVelocity = transform.InverseTransformDirection(rb.linearVelocity);
+        localVelocity.x = 0;
+        rb.linearVelocity = transform.TransformDirection(localVelocity);
     }
    void Jump()
     {
