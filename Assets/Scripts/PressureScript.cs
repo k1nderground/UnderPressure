@@ -130,15 +130,12 @@ public class PressureScript : MonoBehaviour
     {
         if(pressure<maxPressure){
             if(diffKey){
-                if (Input.GetKeyDown(firstKey))
-                {
                     QButton.gameObject.SetActive(false);
                     EButton.gameObject.SetActive(true);
                     AirPump.sprite = Sprites[1];
 
                     pressure += 0.2f;
                     diffKey = !diffKey;
-                }
             }
         }
     }
@@ -147,15 +144,12 @@ public class PressureScript : MonoBehaviour
     {
         if(pressure<maxPressure){
             if(!diffKey){
-                if (Input.GetKeyDown(secondKey))
-                {
                     QButton.gameObject.SetActive(true);
                     EButton.gameObject.SetActive(false);
                     AirPump.sprite = Sprites[0];
 
                     pressure += 0.2f;
                     diffKey = !diffKey;
-                }
             }
         }
     }
