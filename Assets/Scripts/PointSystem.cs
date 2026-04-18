@@ -11,6 +11,7 @@ public class PointSystem : MonoBehaviour
     void Start()
     {
         loadPoints();
+        NowPoints = 0;
         if (pointsText != null)
         {
             pointsText.text = "Монеты "+Points;

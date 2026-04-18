@@ -16,6 +16,11 @@ public class MovementScript : MonoBehaviour
 [SerializeField] float groundDistance = 0.3f;
 [SerializeField] float maxSpeed = 10f;
 
+[Header("SpeedCurve")]
+[SerializeField] float acceleration = 20f;
+[SerializeField] float brake = 10f;
+Vector3 currentVelocity;
+
 public LayerMask groundLayer;
 
 private bool isGrounded;
@@ -28,6 +33,7 @@ void Start()
 {
     rb = GetComponent<Rigidbody>();
     rb.centerOfMass = new Vector3(0, -0.5f, 0);
+    rb.interpolation = RigidbodyInterpolation.Interpolate;
 }
 
 void Update()
@@ -46,36 +52,53 @@ void Update()
     Vector3 horizontalVelocity = rb.linearVelocity;
     horizontalVelocity.y = 0;
 
-    bool isMoving = horizontalVelocity.magnitude > 0.1f;
-
-    if (isMoving)
+    if (ps.isDraining)
     {
         transform.Rotate(Vector3.up, moveX * cameraRotationSpeed * Time.deltaTime, Space.World);
     }
 
-    if(ps.isDraining){
         Move();
     }
-    }
 
-    public void Move()
+   public void Move()
+{
+    Vector3 forward = cameraTransform.forward;
+    forward.y = 0;
+    forward.Normalize();
+
+    Vector3 targetVelocity = forward * moveMultiplier;
+
+    if (ps.isDraining)
     {
-        Vector3 forward = cameraTransform.forward;
-        forward.y = 0;
-        forward.Normalize();
-
-        Vector3 velocity = rb.linearVelocity;
-        Vector3 horizontal = new Vector3(velocity.x, 0, velocity.z);
-
-        if (horizontal.magnitude < maxSpeed)
-        {
-            rb.AddForce(forward * moveMultiplier, ForceMode.Acceleration);
-        }
-
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.linearVelocity);
-        localVelocity.x = 0;
-        rb.linearVelocity = transform.TransformDirection(localVelocity);
+        currentVelocity = Vector3.Lerp(
+            currentVelocity,
+            targetVelocity,
+            acceleration * Time.deltaTime
+        );
     }
+    else
+    {
+        currentVelocity = Vector3.MoveTowards(
+        currentVelocity,
+        Vector3.zero,
+        brake * Time.deltaTime
+        );
+
+    }
+    if (currentVelocity.magnitude > maxSpeed)
+    {
+        currentVelocity = currentVelocity.normalized * maxSpeed;
+    }
+    Vector3 move = currentVelocity * Time.deltaTime;
+
+    Vector3 newPosition = new Vector3(
+        transform.position.x + move.x,
+        rb.position.y,
+        transform.position.z + move.z
+    );
+
+    rb.MovePosition(newPosition);
+}
    void Jump()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer);
