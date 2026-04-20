@@ -996,6 +996,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6def0191dd894aafb706e2c1323a2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  terrains:
+  - {fileID: 477401630938434481, guid: 863de3e5fe16a4f54be38f61d65eb7b5, type: 3}
+  startCount: 4
+  spawnPerTrigger: 3
 --- !u!4 &632283076
 Transform:
   m_ObjectHideFlags: 0
@@ -1005,7 +1009,7 @@ Transform:
   m_GameObject: {fileID: 632283074}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 242.23848, y: 248.32039, z: 0}
+  m_LocalPosition: {x: 45.5, y: 11, z: 11.93}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2410,7 +2414,7 @@ Transform:
   m_GameObject: {fileID: 1840276683}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 35.5, y: 11.63, z: 30.5}
+  m_LocalPosition: {x: 35.5, y: 11, z: 30.5}
   m_LocalScale: {x: 37.207886, y: 1, z: 158.77898}
   m_ConstrainProportionsScale: 0
   m_Children: []
