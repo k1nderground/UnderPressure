@@ -818,9 +818,9 @@ MonoBehaviour:
   pUAmount: 0
   mPUAmount: 0
   sUAmount: 0
-  pULimit: 0
-  mPULimit: 0
-  sULimit: 0
+  pULimit: 30
+  mPULimit: 20
+  sULimit: 10
   mpText: {fileID: 1771286914}
   pText: {fileID: 302065826}
   sText: {fileID: 2051891253}

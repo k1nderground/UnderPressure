@@ -9,9 +9,9 @@ public class UpgradeSystem : MonoBehaviour
     [SerializeField] PointSystem pointSystem;
 
     [Header("Upgrades")]
-    [SerializeField] float pressureUpgrade = 10f;
+    [SerializeField] float pressureUpgrade = 0.2f;
     [SerializeField] float speedUpgrade = 5f;
-    [SerializeField] float maxPressureUpgrade = 0.2f;
+    [SerializeField] float maxPressureUpgrade = 10f;
 
     [Header("Prices")]
     [SerializeField] int speedPrice;
@@ -23,27 +23,24 @@ public class UpgradeSystem : MonoBehaviour
     [SerializeField] int mPUAmount;
     [SerializeField] int sUAmount;
 
-    [SerializeField] int pULimit;
-    [SerializeField] int mPULimit;
-    [SerializeField] int sULimit;
+    [SerializeField] int pULimit = 20;
+    [SerializeField] int mPULimit = 30;
+    [SerializeField] int sULimit = 10;
 
     [Header("Text")]
     [SerializeField] TMP_Text mpText;
     [SerializeField] TMP_Text pText;
     [SerializeField] TMP_Text sText;
 
-    void Start()
+    void Awake()
     {
         loadUpgrades();
+    }
 
-        pULimit = 20;
-        mPULimit = 30;
-        sULimit = 10;
-
-        if(ms != null && ps != null)
-        {
-            ApplyUpgrades();
-        }
+    void Start()
+    {
+        UpdateText();
+        ApplyUpgrades();
     }
 
     public void loadUpgrades()
@@ -86,6 +83,7 @@ public class UpgradeSystem : MonoBehaviour
             maxPressurePrice += 5*mPUAmount;
             pointSystem.UpdatePoints();
             saveUpgrades();
+            UpdateText();
         }
     }
 
@@ -99,6 +97,7 @@ public class UpgradeSystem : MonoBehaviour
             pressurePrice += 5*pUAmount;
             pointSystem.UpdatePoints();
             saveUpgrades();
+            UpdateText();
         }
     }
 
@@ -112,20 +111,29 @@ public class UpgradeSystem : MonoBehaviour
             speedPrice += 5*sUAmount;
             pointSystem.UpdatePoints();
             saveUpgrades();
+            UpdateText();
         }
     }
 
     public void ApplyUpgrades()
     {
+        if (ps != null)
+    {
         ps.SetMaxPressure(maxPressureUpgrade);
         ps.SetSpeed(speedUpgrade);
         ps.SetPressureAmount(pressureUpgrade);
     }
+    }
 
     public void UpdateText()
     {
+        if (mpText != null)
         mpText.text = mPUAmount + "/" + mPULimit;
+
+    if (pText != null)
         pText.text = pUAmount + "/" + pULimit;
+
+    if (sText != null)
         sText.text = sUAmount + "/" + sULimit;
     }
     

@@ -5,6 +5,7 @@ public class PressureScript : MonoBehaviour
 {
     [Header("Connections")]
     [SerializeField] MovementScript ms;
+    [SerializeField] UpgradeSystem us;
 
     [Header("Pressure")]
     [SerializeField] float drainAmount;
@@ -68,7 +69,7 @@ public class PressureScript : MonoBehaviour
                     EButton.gameObject.SetActive(false);
                     AirPump.sprite = Sprites[0];
 
-                    pressure += 0.2f;
+                    pressure += pressureAmount;
                     diffKey = !diffKey;
                 }
             }
