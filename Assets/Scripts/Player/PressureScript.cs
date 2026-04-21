@@ -9,6 +9,8 @@ public class PressureScript : MonoBehaviour
     [Header("Pressure")]
     [SerializeField] float drainAmount;
     [SerializeField] float maxPressure = 10f;
+    [SerializeField] float pressureAmount = 0.2f;
+    [SerializeField] float speed = 5f;
     [SerializeField] ParticleSystem Smoke;
 
     [Header("KeyCodes")]
@@ -55,7 +57,7 @@ public class PressureScript : MonoBehaviour
                     EButton.gameObject.SetActive(true);
                     AirPump.sprite = Sprites[1];
 
-                    pressure += 0.2f;
+                    pressure += pressureAmount;
                     diffKey = !diffKey;
                 }
             }
@@ -114,16 +116,16 @@ public class PressureScript : MonoBehaviour
         if (t < brakeTime / allDrainTime)
         {
             float accelT = t / (brakeTime / allDrainTime);
-            return Mathf.SmoothStep(0f, 5f, accelT);
+            return Mathf.SmoothStep(0f, speed, accelT);
         }
 
-        if (t > 1f - (brakeTime / allDrainTime))
+        if (t > speed - (brakeTime / allDrainTime))
         {
-            float decelT = (t - (5f - (brakeTime / allDrainTime))) / (brakeTime / allDrainTime);
-            return Mathf.SmoothStep(5f, 0f, decelT);
+            float decelT = (t - (speed - (brakeTime / allDrainTime))) / (brakeTime / allDrainTime);
+            return Mathf.SmoothStep(speed, 0f, decelT);
         }
 
-        return 5f;
+        return speed;
     }
 
     public void QButtonPress()
@@ -152,5 +154,20 @@ public class PressureScript : MonoBehaviour
                     diffKey = !diffKey;
             }
         }
+    }
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
+    }
+
+    public void SetPressureAmount(float pressureAmount)
+    {
+        this.pressureAmount = pressureAmount;
+    }
+
+    public void SetMaxPressure(float maxPressure)
+    {
+        this.maxPressure = maxPressure;
     }
 }

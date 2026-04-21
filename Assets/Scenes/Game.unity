@@ -527,6 +527,110 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1084302464}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &361024906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 361024910}
+  - component: {fileID: 361024909}
+  - component: {fileID: 361024908}
+  - component: {fileID: 361024911}
+  m_Layer: 4
+  m_Name: WaterFolower
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!23 &361024908
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361024906}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 69c0e23824ff4488dbb31c1a4130b0b5, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &361024909
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361024906}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &361024910
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361024906}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 35.5, y: 11, z: 30.5}
+  m_LocalScale: {x: 924.31824, y: 1, z: 1209.9434}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &361024911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361024906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3cf311ed40a48d0a3da436a7a538ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WaterPlayerFolower
+  Player: {fileID: 473865027}
 --- !u!1001 &400181306
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -741,6 +845,8 @@ MonoBehaviour:
   ms: {fileID: 473865026}
   drainAmount: 1
   maxPressure: 10
+  pressureAmount: 0.2
+  speed: 5
   Smoke: {fileID: 2133273744}
   firstKey: 113
   secondKey: 101
@@ -782,7 +888,9 @@ MonoBehaviour:
   groundDistance: 0.3
   maxSpeed: 12
   acceleration: 20
-  brake: 10
+  groundBrake: 10
+  airDrag: 0.5
+  airControl: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -998,8 +1106,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   terrains:
   - {fileID: 477401630938434481, guid: 863de3e5fe16a4f54be38f61d65eb7b5, type: 3}
-  startCount: 4
-  spawnPerTrigger: 3
 --- !u!4 &632283076
 Transform:
   m_ObjectHideFlags: 0
@@ -1696,6 +1802,7 @@ GameObject:
   - component: {fileID: 1523675280}
   - component: {fileID: 1523675279}
   - component: {fileID: 1523675283}
+  - component: {fileID: 1523675284}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1804,6 +1911,36 @@ MonoBehaviour:
   Points: 0
   pointsText: {fileID: 0}
   nowPointsText: {fileID: 10335303}
+--- !u!114 &1523675284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523675278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b004b80f43147498b97040225d5f03de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeSystem
+  ms: {fileID: 473865026}
+  ps: {fileID: 473865025}
+  pointSystem: {fileID: 1523675283}
+  pressureUpgrade: 10
+  speedUpgrade: 5
+  maxPressureUpgrade: 0.2
+  speedPrice: 0
+  pressurePrice: 0
+  maxPressurePrice: 0
+  pUAmount: 0
+  mPUAmount: 0
+  sUAmount: 0
+  pULimit: 0
+  mPULimit: 0
+  sULimit: 0
+  mpText: {fileID: 0}
+  pText: {fileID: 0}
+  sText: {fileID: 0}
 --- !u!1 &1528656521 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -516098083770646512, guid: a19feeebf0b67430b8109300d0933403, type: 3}
@@ -2134,13 +2271,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823688464}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.11667426, y: -0.37070423, z: 0.04700277, w: 0.92019355}
-  m_LocalPosition: {x: 11.17, y: 7.29, z: -10}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalPosition: {x: 47.7, y: 43.1, z: 117.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 14.452, y: -43.885, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!114 &1823688468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7380,4 +7517,5 @@ SceneRoots:
   - {fileID: 770719384}
   - {fileID: 748663433}
   - {fileID: 1840276688}
+  - {fileID: 361024910}
   - {fileID: 632283076}

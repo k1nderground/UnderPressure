@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 public class WaterScript : MonoBehaviour
 {
     [SerializeField] PointSystem pointSystem;
+
+    void Start()
+    {
+        pointSystem = FindFirstObjectByType<PointSystem>();
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
