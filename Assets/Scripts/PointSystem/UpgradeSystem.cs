@@ -32,6 +32,10 @@ public class UpgradeSystem : MonoBehaviour
     [SerializeField] TMP_Text pText;
     [SerializeField] TMP_Text sText;
 
+    [SerializeField] TMP_Text price1;
+    [SerializeField] TMP_Text price2;
+    [SerializeField] TMP_Text price3;
+
     void Awake()
     {
         loadUpgrades();
@@ -135,6 +139,10 @@ public class UpgradeSystem : MonoBehaviour
 
     if (sText != null)
         sText.text = sUAmount + "/" + sULimit;
+
+        price1.text = speedPrice + " Монет";
+        price2.text = pressurePrice + " Монет";
+        price3.text = maxPressurePrice + " Монет";
     }
     
     }

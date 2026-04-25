@@ -4,9 +4,13 @@ using TMPro;
 public class PointSystem : MonoBehaviour
 {
     [SerializeField] int Points;
+    [SerializeField] int highScore;
     public static int NowPoints;
+    public static int NowScore;
     [SerializeField] TMP_Text pointsText;
     [SerializeField] TMP_Text nowPointsText;
+    [SerializeField] TMP_Text ScoreText;
+    [SerializeField] TMP_Text HighScoreText;
 
     void Start()
     {
@@ -33,13 +37,30 @@ public class PointSystem : MonoBehaviour
         Points += NowPoints;
         PlayerPrefs.SetInt("Points", Points);
         PlayerPrefs.SetInt("NowPoints", NowPoints);
+        NowScore = ScoreScript.score;
+        PlayerPrefs.SetInt("NowScore", NowScore);
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        if(NowScore > highScore){
+            highScore = NowScore;
+            PlayerPrefs.SetInt("HighScore", highScore);
+        }
     }
 
     public void loadPoints()
     {
         Points = PlayerPrefs.GetInt("Points", 0);
         NowPoints = PlayerPrefs.GetInt("NowPoints", 0);
+        if(pointsText != null){
         pointsText.text = "Монет "+Points;
+        }
+        highScore = PlayerPrefs.GetInt("NowScore", 0);
+        if(ScoreText != null){
+        ScoreText.text = "Счёт "+NowScore;
+        }
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+        if(HighScoreText != null){
+            HighScoreText.text = "Лучший счет: "+highScore;
+        }
     }
 
     public void ResetNowPoints()
