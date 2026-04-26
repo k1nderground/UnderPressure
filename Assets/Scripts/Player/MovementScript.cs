@@ -15,6 +15,7 @@ public class MovementScript : MonoBehaviour
     [SerializeField] Transform groundCheck;
     [SerializeField] float groundDistance = 0.3f;
     [SerializeField] float maxSpeed = 10f;
+    [SerializeField] int PhoneButton;
 
     [Header("SpeedCurve")]
     [SerializeField] float acceleration = 20f;
@@ -29,7 +30,7 @@ public class MovementScript : MonoBehaviour
     private bool isGrounded;
     private Rigidbody rb;
 
-    private float moveX;
+    [SerializeField] private float moveX;
     private float moveZ;
     private float moveMultiplier = 0f;
 
@@ -53,8 +54,16 @@ public class MovementScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        moveX = Input.GetAxis("Horizontal");
-        moveZ = Input.GetAxis("Vertical");
+        if(PhoneButton == 1){
+            moveX = 1f;
+        }
+        else if(PhoneButton == -1){
+            moveX = -1f;
+        }
+        else if(PhoneButton == 0){
+            moveX = Input.GetAxis("Horizontal");
+            moveZ = Input.GetAxis("Vertical");
+        }
 
         isGrounded = Physics.CheckSphere(
             groundCheck.position,
@@ -130,7 +139,7 @@ public class MovementScript : MonoBehaviour
         );
     }
 
-    void Jump()
+    public void Jump()
     {
         isGrounded = Physics.CheckSphere(
             groundCheck.position,
@@ -163,5 +172,17 @@ public class MovementScript : MonoBehaviour
     public void SetMoveMultiplier(float value)
     {
         moveMultiplier = value;
+    }
+
+    public void MoveLeft(){
+        PhoneButton = -1;
+    }
+
+    public void MoveRight(){
+        PhoneButton = 1;
+    }
+
+    public void FingerUp(){
+        PhoneButton = 0;
     }
 }

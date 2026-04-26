@@ -86,7 +86,7 @@ public class PressureScript : MonoBehaviour
             
         }
     }
-    void StartDraining()
+    public void StartDraining()
     {
         Smoke.Play();
         isDraining = true;
