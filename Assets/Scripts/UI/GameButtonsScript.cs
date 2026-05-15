@@ -1,25 +1,31 @@
 using UnityEngine;
+using YG;
 
 public class GameButtonsScript : MonoBehaviour
 {
-    [SerializeField] GameObject LeftButton;
-    [SerializeField] GameObject RightButton;
-
-    [SerializeField] GameObject JumpButton;
-    [SerializeField] GameObject GoButton;
+    [SerializeField] GameObject[] ToShow;
+    [SerializeField] GameObject[] ToHide;
 
     void Awake(){
-        if (SystemInfo.deviceType == DeviceType.Handheld){
-            LeftButton.SetActive(true);
-            RightButton.SetActive(true);
-            JumpButton.SetActive(true);
-            GoButton.SetActive(true);
+        if (SystemInfo.deviceType == DeviceType.Handheld || YG2.envir.isMobile || YG2.envir.isTablet){
+            foreach(GameObject i in ToShow)
+            {
+                i.SetActive(true);
+            }
+            foreach(GameObject i in ToHide)
+            {
+                i.SetActive(false);
+            }
         }
         else{
-            LeftButton.SetActive(false);
-            RightButton.SetActive(false);
-            JumpButton.SetActive(false);
-            GoButton.SetActive(false);
+            foreach(GameObject i in ToShow)
+            {
+                i.SetActive(false);
+            }
+            foreach(GameObject i in ToHide)
+            {
+                i.SetActive(true);
+            }
         }
     }
 }

@@ -147,7 +147,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 0.1.0
+  bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -493,6 +493,12 @@ PlayerSettings:
   - m_BuildTarget: Standalone
     m_StaticBatching: 1
     m_DynamicBatching: 0
+  - m_BuildTarget: iPhone
+    m_StaticBatching: 1
+    m_DynamicBatching: 0
+  - m_BuildTarget: WebGL
+    m_StaticBatching: 0
+    m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
   m_BuildTargetGraphicsJobs:
   - m_BuildTarget: MacStandaloneSupport
@@ -572,7 +578,10 @@ PlayerSettings:
   m_BuildTargetGroupLightmapSettings: []
   m_BuildTargetGroupLoadStoreDebugModeSettings: []
   m_BuildTargetNormalMapEncoding: []
-  m_BuildTargetDefaultTextureCompressionFormat: []
+  m_BuildTargetDefaultTextureCompressionFormat:
+  - serializedVersion: 3
+    m_BuildTarget: WebGL
+    m_Formats: 05000000
   playModeTestRunnerEnabled: 0
   runPlayModeTestAsEditModeTest: 0
   actionOnDotNetUnhandledException: 1
@@ -811,14 +820,14 @@ PlayerSettings:
   blurSplashScreenBackground: 1
   spritePackerPolicy: 
   webGLMemorySize: 32
-  webGLExceptionSupport: 1
+  webGLExceptionSupport: 2
   webGLNameFilesAsHashes: 0
   webGLShowDiagnostics: 0
   webGLDataCaching: 1
   webGLDebugSymbols: 0
   webGLEmscriptenArgs: 
   webGLModulesDirectory: 
-  webGLTemplate: APPLICATION:Default
+  webGLTemplate: PROJECT:YandexGames
   webGLAnalyzeBuildSize: 0
   webGLUseEmbeddedResources: 0
   webGLCompressionFormat: 0
@@ -838,7 +847,18 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    LinuxHeadlessSimulation: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    Nintendo Switch: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    PS4: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    PS5: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    Standalone: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    WebGL: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    Windows Store Apps: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    XboxOne: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    iPhone: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
+    tvOS: PLUGIN_YG_2;TMP_YG2;RU_YG2;InterstitialAdv_yg;NJSON_YG2;Authorization_yg;EnvirData_yg;Leaderboards_yg;YandexGamesPlatform_yg
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -846,7 +866,9 @@ PlayerSettings:
   il2cppCompilerConfiguration: {}
   il2cppCodeGeneration: {}
   il2cppStacktraceInformation: {}
-  managedStrippingLevel: {}
+  managedStrippingLevel:
+    WebGL: 4
+    iPhone: 4
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
   allowUnsafeCode: 0

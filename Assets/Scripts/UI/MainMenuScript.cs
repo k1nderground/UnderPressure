@@ -1,8 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using YG;
 
 public class MainMenuScript : MonoBehaviour
 {
+    public void Start(){
+        if (SceneManager.GetActiveScene().name == "Lose")
+        {
+            YG2.InterstitialAdvShow();
+        }
+    }
+
     public void StartGame()
     {
         SceneManager.LoadScene("Game");

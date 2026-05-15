@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class MovementScript : MonoBehaviour
 {
@@ -6,6 +7,9 @@ public class MovementScript : MonoBehaviour
     [SerializeField] Transform cameraTransform;
     [SerializeField] Animator anim;
     [SerializeField] PressureScript ps;
+    [SerializeField] PointSystem points;
+    [SerializeField] AudioSource src;
+    [SerializeField] SoundScript sound;
 
     [Header("Vars")]
     [SerializeField] float speed = 100f;
@@ -25,6 +29,15 @@ public class MovementScript : MonoBehaviour
     [SerializeField] float airDrag = 0.5f;
     [SerializeField] float airControl = 5f;
 
+    [Header("Tricks")]
+    [SerializeField] KeyCode[] KeyCodes;
+    [SerializeField] int currentTrickIndex;
+    [SerializeField] TMP_Text AirText;
+    [SerializeField] float AirTime;
+    [SerializeField] float removeTimer;
+    [SerializeField] bool isRemoving;
+
+    [Header("Other")]
     public LayerMask groundLayer;
 
     private bool isGrounded;
@@ -39,6 +52,7 @@ public class MovementScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        AirText.gameObject.SetActive(false);
 
         rb.centerOfMass = new Vector3(0, -0.5f, 0);
         rb.interpolation = RigidbodyInterpolation.Interpolate;
@@ -49,6 +63,44 @@ public class MovementScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
+        }
+
+        if(isGrounded && AirTime != 0)
+        {
+            if (AirTime > 2f)
+            {
+                AirText.gameObject.SetActive(true);
+                AirText.text = "БОНУС ЗА ВРЕМЯ В ВОЗДУХЕ ("+AirTime+")";
+                int coin = (int)AirTime;
+                points.AddPoints(coin);
+                removeTimer = 0;
+                isRemoving = true;
+
+            }
+
+            AirTime = 0;
+        }
+
+        if(isGrounded){
+            if (isRemoving)
+            {
+                removeTimer += Time.deltaTime;
+                if(removeTimer > 3f)
+                {
+                    Debug.Log("Текст ушел");
+                    AirText.gameObject.SetActive(false);
+                    removeTimer = 0;
+                    isRemoving = false;
+                    
+                }   
+                
+            } 
+        }
+
+        if (!isGrounded)
+        {
+            AirTime+=Time.deltaTime;
+            Trick();
         }
     }
 
@@ -160,6 +212,7 @@ public class MovementScript : MonoBehaviour
             rb.AddForce(jumpVector, ForceMode.Impulse);
 
             anim.Play("SkateJumpAnimation");
+            sound.Play(1);
 
             Debug.Log("На земле");
         }
@@ -184,5 +237,57 @@ public class MovementScript : MonoBehaviour
 
     public void FingerUp(){
         PhoneButton = 0;
+    }
+
+    void Trick()
+    {
+        if (KeyCodes.Length == 0) return;
+
+        if (Input.GetKeyDown(KeyCodes[currentTrickIndex]))
+        {
+            currentTrickIndex++;
+
+            if (currentTrickIndex >= KeyCodes.Length)
+            {
+                anim.Play("Skate360");
+                sound.Play(2);
+                points.AddPoints(25);
+                currentTrickIndex = 0;
+            }
+        }
+        else
+        {
+            foreach (KeyCode key in KeyCodes)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    currentTrickIndex = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    void HandleRideSound()
+    {
+        Vector3 horizontalVelocity = rb.linearVelocity;
+        horizontalVelocity.y = 0f;
+
+        bool isMoving = horizontalVelocity.magnitude > 0.2f;
+
+        if (isMoving && isGrounded)
+        {
+            if (!src.isPlaying)
+            {
+                src.Play();
+            }
+        }
+        else
+        {
+            if (src.isPlaying)
+            {
+                src.Stop();
+            }
+        }
     }
 }

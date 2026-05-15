@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
+using YG;
 
 public class PointSystem : MonoBehaviour
 {
@@ -15,7 +17,12 @@ public class PointSystem : MonoBehaviour
     void Start()
     {
         loadPoints();
-        NowPoints = 0;
+
+        if (SceneManager.GetActiveScene().name == "Game")
+        {
+            ResetNowPoints();
+        }
+
         if (pointsText != null)
         {
             pointsText.text = "Монеты "+Points;
@@ -43,6 +50,7 @@ public class PointSystem : MonoBehaviour
         if(NowScore > highScore){
             highScore = NowScore;
             PlayerPrefs.SetInt("HighScore", highScore);
+            YG2.SetLeaderboard("highscore", highScore);
         }
     }
 
@@ -53,7 +61,7 @@ public class PointSystem : MonoBehaviour
         if(pointsText != null){
         pointsText.text = "Монет "+Points;
         }
-        highScore = PlayerPrefs.GetInt("NowScore", 0);
+        NowScore = PlayerPrefs.GetInt("NowScore", 0);
         if(ScoreText != null){
         ScoreText.text = "Счёт "+NowScore;
         }
@@ -83,5 +91,10 @@ public class PointSystem : MonoBehaviour
     {
        pointsText.text = "Монет "+Points;
        PlayerPrefs.SetInt("Points", Points);
+    }
+
+    public void AddPoints(int amount)
+    {
+        NowPoints+=amount;
     }
 }

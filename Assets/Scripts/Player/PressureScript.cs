@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class PressureScript : MonoBehaviour
 {
     [Header("Connections")]
     [SerializeField] MovementScript ms;
     [SerializeField] UpgradeSystem us;
+    [SerializeField] SoundScript sound;
 
     [Header("Pressure")]
     [SerializeField] float drainAmount;
@@ -42,8 +44,14 @@ public class PressureScript : MonoBehaviour
         pressure = 0;
         diffKey = true;
 
-        EButton.gameObject.SetActive(false);
-        QButton.gameObject.SetActive(true);
+        if(!YG2.envir.isMobile && !YG2.envir.isTablet){
+            EButton.gameObject.SetActive(false);
+            QButton.gameObject.SetActive(true);
+        }
+        else{
+            EButton.gameObject.SetActive(false);
+            QButton.gameObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -57,7 +65,7 @@ public class PressureScript : MonoBehaviour
                     QButton.gameObject.SetActive(false);
                     EButton.gameObject.SetActive(true);
                     AirPump.sprite = Sprites[1];
-
+                    sound.Play(3);
                     pressure += pressureAmount;
                     diffKey = !diffKey;
                 }
@@ -68,6 +76,7 @@ public class PressureScript : MonoBehaviour
                     QButton.gameObject.SetActive(true);
                     EButton.gameObject.SetActive(false);
                     AirPump.sprite = Sprites[0];
+                    sound.Play(4);
 
                     pressure += pressureAmount;
                     diffKey = !diffKey;
@@ -170,5 +179,12 @@ public class PressureScript : MonoBehaviour
     public void SetMaxPressure(float maxPressure)
     {
         this.maxPressure = maxPressure;
+    }
+
+    public void AddPressure()
+    {
+        if(pressure<maxPressure){
+            pressure += pressureAmount;
+        }
     }
 }

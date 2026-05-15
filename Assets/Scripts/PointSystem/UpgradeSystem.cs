@@ -131,18 +131,23 @@ public class UpgradeSystem : MonoBehaviour
 
     public void UpdateText()
     {
-        if (mpText != null)
+    if (mpText != null){
         mpText.text = mPUAmount + "/" + mPULimit;
+    }
 
-    if (pText != null)
+    if (pText != null){
         pText.text = pUAmount + "/" + pULimit;
+    }
 
-    if (sText != null)
+    if (sText != null){
         sText.text = sUAmount + "/" + sULimit;
+    }
 
+    if(price1 != null){
         price1.text = speedPrice + " Монет";
         price2.text = pressurePrice + " Монет";
         price3.text = maxPressurePrice + " Монет";
     }
     
     }
+}
