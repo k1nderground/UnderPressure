@@ -4,16 +4,12 @@ using YG;
 
 public class MainMenuScript : MonoBehaviour
 {
-    public void Start(){
-        if (SceneManager.GetActiveScene().name == "Lose")
-        {
-            YG2.InterstitialAdvShow();
-        }
-    }
 
     public void StartGame()
     {
+        YG2.InterstitialAdvShow();
         SceneManager.LoadScene("Game");
+        
     }
 
     public void OpenShop()

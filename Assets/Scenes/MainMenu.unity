@@ -493,7 +493,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: UNDER PRESSURE
+  m_text: 'under
+
+    pressure'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2166b44a9c80b4ed797c87535c913586, type: 2}
   m_sharedMaterial: {fileID: -904628205993388907, guid: 2166b44a9c80b4ed797c87535c913586, type: 2}
