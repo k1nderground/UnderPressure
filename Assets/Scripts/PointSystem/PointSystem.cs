@@ -14,6 +14,9 @@ public class PointSystem : MonoBehaviour
     [SerializeField] TMP_Text ScoreText;
     [SerializeField] TMP_Text HighScoreText;
 
+    [SerializeField] AudioSource src;
+    [SerializeField] AudioClip pickup;
+
     void Start()
     {
         loadPoints();
@@ -96,5 +99,6 @@ public class PointSystem : MonoBehaviour
     public void AddPoints(int amount)
     {
         NowPoints+=amount;
+        src.PlayOneShot(pickup, 1f);
     }
 }

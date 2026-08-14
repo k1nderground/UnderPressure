@@ -1,12 +1,22 @@
 using UnityEngine;
 using YG;
+using System.Collections;
 
 public class GameButtonsScript : MonoBehaviour
 {
     [SerializeField] GameObject[] ToShow;
     [SerializeField] GameObject[] ToHide;
 
-    void Awake(){
+    void Start(){
+        StartCoroutine(popopo());
+    }
+
+    IEnumerator popopo(){
+        yield return new WaitForSeconds(0.1f);
+        DoShit();
+    }
+
+    void DoShit(){
         if (SystemInfo.deviceType == DeviceType.Handheld || YG2.envir.isMobile || YG2.envir.isTablet){
             foreach(GameObject i in ToShow)
             {

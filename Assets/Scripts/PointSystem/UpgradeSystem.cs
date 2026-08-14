@@ -4,150 +4,146 @@ using TMPro;
 public class UpgradeSystem : MonoBehaviour
 {
     [Header("Connections")]
-    [SerializeField] MovementScript ms;
-    [SerializeField] PressureScript ps;
-    [SerializeField] PointSystem pointSystem;
+    [SerializeField] private NewMovementScript movementScript;
+    [SerializeField] private PointSystem pointSystem;
 
-    [Header("Upgrades")]
-    [SerializeField] float pressureUpgrade = 0.2f;
-    [SerializeField] float speedUpgrade = 5f;
-    [SerializeField] float maxPressureUpgrade = 10f;
+    [Header("Upgrades Values")]
+    [SerializeField] private float pushForceUpgrade = 5f;    // Сила одного толчка
+    [SerializeField] private float maxSpeedUpgrade = 8f;     // Максимальная скорость
+    [SerializeField] private float jumpForceUpgrade = 10f;   // Высота (сила) прыжка
 
     [Header("Prices")]
-    [SerializeField] int speedPrice;
-    [SerializeField] int pressurePrice;
-    [SerializeField] int maxPressurePrice;
+    [SerializeField] private int pushPrice = 10;
+    [SerializeField] private int maxSpeedPrice = 15;
+    [SerializeField] private int jumpPrice = 20;
 
     [Header("Limits")]
-    [SerializeField] int pUAmount;
-    [SerializeField] int mPUAmount;
-    [SerializeField] int sUAmount;
+    [SerializeField] private int pushAmount;
+    [SerializeField] private int maxSpeedAmount;
+    [SerializeField] private int jumpAmount;
 
-    [SerializeField] int pULimit = 20;
-    [SerializeField] int mPULimit = 30;
-    [SerializeField] int sULimit = 10;
+    [SerializeField] private int pushLimit = 20;
+    [SerializeField] private int maxSpeedLimit = 15;
+    [SerializeField] private int jumpLimit = 10;
 
-    [Header("Text")]
-    [SerializeField] TMP_Text mpText;
-    [SerializeField] TMP_Text pText;
-    [SerializeField] TMP_Text sText;
+    [Header("Text (Amount)")]
+    [SerializeField] private TMP_Text pushText;
+    [SerializeField] private TMP_Text maxSpeedText;
+    [SerializeField] private TMP_Text jumpText;
 
-    [SerializeField] TMP_Text price1;
-    [SerializeField] TMP_Text price2;
-    [SerializeField] TMP_Text price3;
+    [Header("Text (Prices)")]
+    [SerializeField] private TMP_Text pushPriceText;
+    [SerializeField] private TMP_Text maxSpeedPriceText;
+    [SerializeField] private TMP_Text jumpPriceText;
 
-    void Awake()
+    private void Awake()
     {
-        loadUpgrades();
+        LoadUpgrades();
     }
 
-    void Start()
+    private void Start()
     {
         UpdateText();
         ApplyUpgrades();
     }
 
-    public void loadUpgrades()
+    public void LoadUpgrades()
     {
-        pressureUpgrade = PlayerPrefs.GetFloat("pressureUpgrade", 0.2f);
-        speedUpgrade = PlayerPrefs.GetFloat("speedUpgrade", 5f);
-        maxPressureUpgrade = PlayerPrefs.GetFloat("maxPressureUpgrade", 10f);
+        pushForceUpgrade = PlayerPrefs.GetFloat("pushForceUpgrade", 5f);
+        maxSpeedUpgrade = PlayerPrefs.GetFloat("maxSpeedUpgrade", 8f);
+        jumpForceUpgrade = PlayerPrefs.GetFloat("jumpForceUpgrade", 10f);
 
-        pUAmount = PlayerPrefs.GetInt("pUAmount", 0);
-        mPUAmount = PlayerPrefs.GetInt("mPUAmount", 0);
-        sUAmount = PlayerPrefs.GetInt("sUAmount", 0);
+        pushAmount = PlayerPrefs.GetInt("pushAmount", 0);
+        maxSpeedAmount = PlayerPrefs.GetInt("maxSpeedAmount", 0);
+        jumpAmount = PlayerPrefs.GetInt("jumpAmount", 0);
 
-        speedPrice = PlayerPrefs.GetInt("speedPrice", 15);
-        maxPressurePrice = PlayerPrefs.GetInt("maxPressurePrice", 5);
-        pressurePrice = PlayerPrefs.GetInt("pressurePrice", 10);
+        pushPrice = PlayerPrefs.GetInt("pushPrice", 10);
+        maxSpeedPrice = PlayerPrefs.GetInt("maxSpeedPrice", 15);
+        jumpPrice = PlayerPrefs.GetInt("jumpPrice", 20);
     }
 
-    public void saveUpgrades()
+    public void SaveUpgrades()
     {
-        PlayerPrefs.SetInt("pUAmount", pUAmount);
-        PlayerPrefs.SetInt("mPUAmount", mPUAmount);
-        PlayerPrefs.SetInt("sUAmount", sUAmount);
+        PlayerPrefs.SetInt("pushAmount", pushAmount);
+        PlayerPrefs.SetInt("maxSpeedAmount", maxSpeedAmount);
+        PlayerPrefs.SetInt("jumpAmount", jumpAmount);
 
-        PlayerPrefs.SetFloat("pressureUpgrade", pressureUpgrade);
-        PlayerPrefs.SetFloat("speedUpgrade", speedUpgrade);
-        PlayerPrefs.SetFloat("maxPressureUpgrade", maxPressureUpgrade);
+        PlayerPrefs.SetFloat("pushForceUpgrade", pushForceUpgrade);
+        PlayerPrefs.SetFloat("maxSpeedUpgrade", maxSpeedUpgrade);
+        PlayerPrefs.SetFloat("jumpForceUpgrade", jumpForceUpgrade);
 
-        PlayerPrefs.SetInt("speedPrice", speedPrice);
-        PlayerPrefs.SetInt("maxPressurePrice", maxPressurePrice);
-        PlayerPrefs.SetInt("pressurePrice", pressurePrice);
+        PlayerPrefs.SetInt("pushPrice", pushPrice);
+        PlayerPrefs.SetInt("maxSpeedPrice", maxSpeedPrice);
+        PlayerPrefs.SetInt("jumpPrice", jumpPrice);
     }
 
-    public void UpgradeMaxPressure()
+    // --- Методы прокачки ---
+
+    public void UpgradePushForce()
     {
-        if (pointSystem.getPoints() >= maxPressurePrice && mPUAmount<mPULimit)
+        if (pointSystem != null && pointSystem.getPoints() >= pushPrice && pushAmount < pushLimit)
         {
-            maxPressureUpgrade += 1f;
-            mPUAmount++;
-            pointSystem.Withdrawl(maxPressurePrice);
-            maxPressurePrice += 5*mPUAmount;
-            pointSystem.UpdatePoints();
-            saveUpgrades();
-            UpdateText();
+            pushForceUpgrade += 0.5f; // Прирост силы толчка
+            pushAmount++;
+            pointSystem.Withdrawl(pushPrice);
+            pushPrice += 5 * pushAmount;
+            
+            OnUpgradeChanged();
         }
     }
 
-    public void UpgradePressure()
+    public void UpgradeMaxSpeed()
     {
-        if (pointSystem.getPoints() >= pressurePrice && pUAmount<pULimit)
+        if (pointSystem != null && pointSystem.getPoints() >= maxSpeedPrice && maxSpeedAmount < maxSpeedLimit)
         {
-            pressureUpgrade += 0.1f;
-            pUAmount++;
-            pointSystem.Withdrawl(pressurePrice);
-            pressurePrice += 5*pUAmount;
-            pointSystem.UpdatePoints();
-            saveUpgrades();
-            UpdateText();
+            maxSpeedUpgrade += 1f; // Прирост максимальной скорости
+            maxSpeedAmount++;
+            pointSystem.Withdrawl(maxSpeedPrice);
+            maxSpeedPrice += 10 * maxSpeedAmount;
+            
+            OnUpgradeChanged();
         }
     }
 
-    public void UpgradeSpeed()
+    public void UpgradeJumpForce()
     {
-        if (pointSystem.getPoints() >= speedPrice && sUAmount<sULimit)
+        if (pointSystem != null && pointSystem.getPoints() >= jumpPrice && jumpAmount < jumpLimit)
         {
-            speedUpgrade += 0.25f;
-            sUAmount++;
-            pointSystem.Withdrawl(speedPrice);
-            speedPrice += 5*sUAmount;
-            pointSystem.UpdatePoints();
-            saveUpgrades();
-            UpdateText();
+            jumpForceUpgrade += 0.8f; // Прирост силы прыжка
+            jumpAmount++;
+            pointSystem.Withdrawl(jumpPrice);
+            jumpPrice += 15 * jumpAmount;
+            
+            OnUpgradeChanged();
         }
+    }
+
+    private void OnUpgradeChanged()
+    {
+        if (pointSystem != null) pointSystem.UpdatePoints();
+        SaveUpgrades();
+        ApplyUpgrades();
+        UpdateText();
     }
 
     public void ApplyUpgrades()
     {
-        if (ps != null)
-    {
-        ps.SetMaxPressure(maxPressureUpgrade);
-        ps.SetSpeed(speedUpgrade);
-        ps.SetPressureAmount(pressureUpgrade);
-    }
+        if (movementScript != null)
+        {
+            movementScript.SetPushForce(pushForceUpgrade);
+            movementScript.SetMaxSpeed(maxSpeedUpgrade);
+            movementScript.SetJumpForce(jumpForceUpgrade);
+        }
     }
 
     public void UpdateText()
     {
-    if (mpText != null){
-        mpText.text = mPUAmount + "/" + mPULimit;
-    }
+        if (pushText != null) pushText.text = pushAmount + "/" + pushLimit;
+        if (maxSpeedText != null) maxSpeedText.text = maxSpeedAmount + "/" + maxSpeedLimit;
+        if (jumpText != null) jumpText.text = jumpAmount + "/" + jumpLimit;
 
-    if (pText != null){
-        pText.text = pUAmount + "/" + pULimit;
-    }
-
-    if (sText != null){
-        sText.text = sUAmount + "/" + sULimit;
-    }
-
-    if(price1 != null){
-        price1.text = speedPrice + " Монет";
-        price2.text = pressurePrice + " Монет";
-        price3.text = maxPressurePrice + " Монет";
-    }
-    
+        if (pushPriceText != null) pushPriceText.text = pushPrice + " Монет";
+        if (maxSpeedPriceText != null) maxSpeedPriceText.text = maxSpeedPrice + " Монет";
+        if (jumpPriceText != null) jumpPriceText.text = jumpPrice + " Монет";
     }
 }

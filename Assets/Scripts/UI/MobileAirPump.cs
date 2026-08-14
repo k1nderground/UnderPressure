@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class MobileAirPump : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
     [SerializeField] RectTransform handle;
-    [SerializeField] PressureScript ps;
+    [SerializeField] NewMovementScript move;
     [SerializeField] SoundScript sound;
     [SerializeField] Vector2 topPoint;
     [SerializeField] Vector2 bottomPoint;
@@ -58,15 +58,15 @@ public class MobileAirPump : MonoBehaviour, IBeginDragHandler, IDragHandler
         if (distanceToTop <= threshold && count == 0)
         {
             count = 1;
-            ps.AddPressure();
-            sound.Play(4);
+            move.Push();
+            sound.Play(3);
         }
 
         if (distanceToBottom <= threshold && count == 1)
         {
             count = 0;
-            ps.AddPressure();
-            sound.Play(5);
+            move.Push();
+            sound.Play(4);
         }
     }
 
